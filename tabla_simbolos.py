@@ -57,7 +57,7 @@ class TablaSimbolos :
         self.insertar_en_tabla('[', 'L_CORCHETE', L_CORCHETE)
         self.insertar_en_tabla(']','R_CORCHETE' , R_CORCHETE)
         self.insertar_en_tabla('{', 'L_LLAVE', L_LLAVE)
-        self.insertar_en_tabla('}','L_LLAVE', R_LLAVE)
+        self.insertar_en_tabla('}','R_LLAVE', R_LLAVE)
         self.insertar_en_tabla(',','COMA', COMA)
         self.insertar_en_tabla(':','DOS_PUNTOS', DOS_PUNTOS)
         self.insertar_en_tabla('true','PR_TRUE', PR_TRUE)
