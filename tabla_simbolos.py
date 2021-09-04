@@ -87,4 +87,13 @@ class TablaSimbolos :
             pos += 1
             if (pos == len(self.tabla)) :
                 pos = 0
+        # print('<'+clave+'>')
         return self.tabla[pos]
+        # for temp in self.tabla :
+        #     if(temp.lexema == clave):
+        #     # if(temp.lexema.find(clave)):
+        #         return temp
+        #
+        # if(clave !=" " and clave !="\n"):
+        #     print(" [ "+clave+" ] ")
+        #     raise Exception("Caracter invalido encontrado <"+clave+">")
