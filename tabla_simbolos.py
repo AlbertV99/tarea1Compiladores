@@ -57,7 +57,7 @@ class TablaSimbolos :
         self.insertar_en_tabla('[', 'L_CORCHETE', L_CORCHETE)
         self.insertar_en_tabla(']','R_CORCHETE' , R_CORCHETE)
         self.insertar_en_tabla('{', 'L_LLAVE', L_LLAVE)
-        self.insertar_en_tabla('}','L_LLAVE', R_LLAVE)
+        self.insertar_en_tabla('}','R_LLAVE', R_LLAVE)
         self.insertar_en_tabla(',','COMA', COMA)
         self.insertar_en_tabla(':','DOS_PUNTOS', DOS_PUNTOS)
         self.insertar_en_tabla('true','PR_TRUE', PR_TRUE)
@@ -87,4 +87,13 @@ class TablaSimbolos :
             pos += 1
             if (pos == len(self.tabla)) :
                 pos = 0
+        # print('<'+clave+'>')
         return self.tabla[pos]
+        # for temp in self.tabla :
+        #     if(temp.lexema == clave):
+        #     # if(temp.lexema.find(clave)):
+        #         return temp
+        #
+        # if(clave !=" " and clave !="\n"):
+        #     print(" [ "+clave+" ] ")
+        #     raise Exception("Caracter invalido encontrado <"+clave+">")
