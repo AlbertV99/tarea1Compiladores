@@ -43,29 +43,19 @@ class TablaSimbolos :
 
     def __init__(self, tam_tabla = 50) :
 
-        self.tabla = [TipoToken()]*tam_tabla
-
-    #metodo para inicializar la tabla
-    def iniciar_tabla (self):
-
-        for a in list(range(len(self.tabla))):
-            self.tabla[a].numero = -1
-            self.tabla[a].nombre_token = ''
-    #metodo que inicializa la tabla por defecto
-    def inicializar_tabla (self) :
-
-        self.insertar_en_tabla('[', 'L_CORCHETE', L_CORCHETE)
-        self.insertar_en_tabla(']','R_CORCHETE' , R_CORCHETE)
-        self.insertar_en_tabla('{', 'L_LLAVE', L_LLAVE)
-        self.insertar_en_tabla('}','R_LLAVE', R_LLAVE)
-        self.insertar_en_tabla(',','COMA', COMA)
-        self.insertar_en_tabla(':','DOS_PUNTOS', DOS_PUNTOS)
-        self.insertar_en_tabla('true','PR_TRUE', PR_TRUE)
-        self.insertar_en_tabla('false','PR_FALSE',PR_FALSE)
-        self.insertar_en_tabla('null','PR_NULL', PR_NULL)
-        self.insertar_en_tabla('STRING','STRING',LITERAL_CADENA  )
-        self.insertar_en_tabla('NUMBER','NUMBER',LITERAL_NUM)
-
+        self.tabla = [
+            TipoToken('[', 'L_CORCHETE', L_CORCHETE),
+            TipoToken(']','R_CORCHETE' , R_CORCHETE),
+            TipoToken('{', 'L_LLAVE', L_LLAVE),
+            TipoToken('}','R_LLAVE', R_LLAVE),
+            TipoToken(',','COMA', COMA),
+            TipoToken(':','DOS_PUNTOS', DOS_PUNTOS),
+            TipoToken('true','PR_TRUE', PR_TRUE),
+            TipoToken('false','PR_FALSE',PR_FALSE),
+            TipoToken('null','PR_NULL', PR_NULL),
+            TipoToken('"','STRING',LITERAL_CADENA  ),
+            TipoToken('NUMBER','NUMBER',LITERAL_NUM),
+        ]
     #metodo para insertar en la tabla de simbolos
     def insertar (self, entrada ):
         pos = 0
@@ -82,18 +72,12 @@ class TablaSimbolos :
         self.insertar(entrada)
 
     def buscar (self, clave):
-        pos = 0
-        while (self.tabla[pos].numero != -1 and (clave != self.tabla[pos].lexema)) :
-            pos += 1
-            if (pos == len(self.tabla)) :
-                pos = 0
-        # print('<'+clave+'>')
-        return self.tabla[pos]
-        # for temp in self.tabla :
-        #     if(temp.lexema == clave):
-        #     # if(temp.lexema.find(clave)):
-        #         return temp
-        #
-        # if(clave !=" " and clave !="\n"):
-        #     print(" [ "+clave+" ] ")
-        #     raise Exception("Caracter invalido encontrado <"+clave+">")
+        # print(clave)
+        for temp in self.tabla :
+            if(temp.lexema == clave ):
+                return temp
+            if(temp.lexema=="NUMBER" and clave.isnumeric()):
+                return temp
+
+        if(clave !=" " and clave !="\n"):
+            raise Exception("Caracter invalido encontrado <"+clave+">")

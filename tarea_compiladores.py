@@ -5,8 +5,6 @@ EOF = ''
 
 def main():
     tabla = p.TablaSimbolos()
-    tabla.iniciar_tabla()
-    tabla.inicializar_tabla()
     inicializar_archivo_salida()
     with open(ARCHIVO_ENTRADA) as fichero:
         procesar_fichero(fichero,tabla)
@@ -19,28 +17,43 @@ def procesar_fichero(fichero,tabla):
     token = ''
     linea = ''
     nro_linea = 1
+    caracter = fichero.readline(1)
+    tabs = 0
     while (caracter != EOF) :
-        caracter = fichero.readline(1)
-        variable = tabla.buscar(caracter)
-        linea += variable.nombre_token + ' '
-        if (caracter == '\n') :
-            # print (linea + '\n') # imprimir en archivo
-            escribir_linea(linea + '\n')
-            linea = '' # linea nueva
-            nro_linea += 1
-        elif (caracter == '"') :
-            #aqui encontre una cadena
-            token = tabla.buscar(procesar_cadena(fichero))
-            linea += token.nombre_token + ' '
-        elif (str(caracter).isnumeric()) :
-            #aqui encontre un numero
-            token = tabla.buscar(procesar_numerico(fichero))
-            linea+= token.nombre_token + ' '
-        elif (caracter == 'f' or caracter == 't') : #quiere decir que lo mas probable es que venga un falso
-            token = tabla.buscar(procesar_booleano(fichero,caracter))
-            linea += token.nombre_token + ' '
-        lexema = ''
+        try:
 
+            if (caracter == '\n') :
+                escribir_linea(linea + '\n')
+                linea = '' + ("\t"*tabs) # linea nueva
+                nro_linea += 1
+                caracter = fichero.readline(1)
+                continue
+            elif (caracter == ' '):
+                caracter = fichero.readline(1)
+                continue
+            elif (caracter == EOF):
+                break
+            elif (caracter.lower() == 'f' or caracter.lower() == 't') : #quiere decir que lo mas probable es que venga un falso
+                token = tabla.buscar(procesar_booleano(fichero,caracter))
+            else:
+                token = tabla.buscar(caracter)
+                if(token.numero==p.LITERAL_CADENA):
+                    procesar_cadena(fichero)
+                elif(token.numero==p.LITERAL_NUM):
+                    procesar_numerico(fichero)
+                elif(token.numero==p.L_CORCHETE or token.numero == p.L_LLAVE):
+                    tabs+=1
+                elif(token.numero==p.R_CORCHETE or token.numero == p.R_LLAVE):
+                    tabs-=1
+
+            linea += token.nombre_token + ' '
+            caracter = fichero.readline(1)
+            # token = None
+        except Exception as error:
+            # linea += token.nombre_token + ' '
+            escribir_linea(linea + '\n')
+            print(error)
+            exit(-1)
 
 def procesar_cadena(fichero):
     while (True):
@@ -78,7 +91,6 @@ def procesar_booleano(fichero,caracter):
     pass
 
 def escribir_linea(linea):
-    # print(linea)
     with open(ARCHIVO_SALIDA,'a') as salida :
         salida.write(linea)
     salida.close()
